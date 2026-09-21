@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community — KrishiSahayak AI</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><span class="logo">🌾</span> KrishiSahayak <span class="sub">AI</span></a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+      <div class="nav-links" id="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="#" id="signout-link">Sign out</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="dash-head">
+    <div class="container">
+      <h1>💬 Global Community Chat</h1>
+      <p>The open town square — ask questions, share experience, learn from each other. Officer replies carry the ✅ Verified badge.</p>
+    </div>
+  </header>
+
+  <main class="container section">
+    <div class="status info" id="community-status" role="status" aria-live="polite" hidden></div>
+
+    <!-- Sort + search -->
+    <div class="field-row" style="grid-template-columns:1fr auto">
+      <input type="search" id="search" placeholder="🔍 Search posts…">
+      <select id="sort" style="min-width:130px">
+        <option value="hot">🔥 Hot</option>
+        <option value="new">🆕 New</option>
+        <option value="top">⭐ Top</option>
+      </select>
+    </div>
+
+    <!-- Boards -->
+    <h2 class="mt" style="font-size:1.05rem">Boards</h2>
+    <div class="board-filters" id="boards"></div>
+
+    <!-- New post -->
+    <div class="card mt">
+      <h3>Start a discussion</h3>
+      <form id="post-form">
+        <div class="field-row">
+          <div>
+            <label for="post-board">Board</label>
+            <select id="post-board" required></select>
+          </div>
+          <div>
+            <label for="post-flair">Flair</label>
+            <select id="post-flair" required>
+              <option value="question">❓ Question</option>
+              <option value="experience">🌾 Farmer Experience</option>
+              <option value="problem">🍂 Crop Problem</option>
+              <option value="resource">🚜 Resource Need / Offer</option>
+              <option value="discussion">💬 Discussion</option>
+            </select>
+          </div>
+        </div>
+        <label for="post-title">Title</label>
+        <input type="text" id="post-title" placeholder="e.g. Brown spots on paddy leaves after heavy rain" required>
+        <label for="post-body">Details <span class="opt">(optional)</span></label>
+        <textarea id="post-body" rows="3" placeholder="Add more detail so others can help…"></textarea>
+        <button class="btn btn-primary" style="margin-top:1rem">Post to community</button>
+      </form>
+    </div>
+
+    <!-- Posts -->
+    <h2 class="mt" id="posts-title">Posts</h2>
+    <div class="card" id="posts"></div>
+
+    <!-- Thread view -->
+    <div class="card hidden" id="thread"></div>
+  </main>
+
+  <footer class="site">
+    <div class="container">
+      <div class="foot-bottom small center">🌾 KrishiSahayak AI — no AI here, just people helping people</div>
+    </div>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/community.js"></script>
+</body>
+</html>

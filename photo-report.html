@@ -1,0 +1,54 @@
+<!-- Paste this section into index.html (or a new page).
+     It has no styling of its own, so it picks up your css/style.css.
+     Load the script at the end of <body>:
+     <script type="module" src="js/photo-report.js"></script> -->
+
+<section id="photo-report" aria-labelledby="photo-report-title">
+  <h2 id="photo-report-title">Report a crop problem</h2>
+  <p>Add a photo of the affected plant. We fill in the details, and you check them before saving.</p>
+
+  <div id="photo-step">
+    <label for="photo">Crop photo</label>
+    <input id="photo" type="file" accept="image/*">
+    <img id="photo-preview" alt="Preview of your crop photo" hidden>
+
+    <label for="description">Anything else to add? (optional)</label>
+    <textarea id="description" rows="2" maxlength="500"></textarea>
+
+    <button type="button" id="analyze-btn">Read photo</button>
+    <p id="photo-status" role="status" aria-live="polite"></p>
+  </div>
+
+  <form id="report-form" hidden>
+    <label for="crop">Crop</label>
+    <input id="crop" required>
+
+    <label for="part">Affected part</label>
+    <select id="part">
+      <option value="">Not sure</option>
+      <option value="leaf">Leaf</option>
+      <option value="stem">Stem</option>
+      <option value="fruit">Fruit</option>
+      <option value="flower">Flower</option>
+      <option value="root">Root</option>
+      <option value="whole_plant">Whole plant</option>
+      <option value="other">Other</option>
+    </select>
+
+    <label for="symptoms">What you see (separate with commas)</label>
+    <input id="symptoms">
+
+    <label for="severity">How bad is it?</label>
+    <select id="severity">
+      <option value="">Not sure</option>
+      <option value="mild">Mild</option>
+      <option value="moderate">Moderate</option>
+      <option value="severe">Severe</option>
+    </select>
+
+    <label for="area">Your panchayat or locality</label>
+    <input id="area" required>
+
+    <button type="submit" id="save-btn">Save report</button>
+  </form>
+</section>

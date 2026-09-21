@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — KrishiSahayak AI</title>
+  <meta name="description" content="Sign in or create your KrishiSahayak AI account.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><span class="logo">🌾</span> KrishiSahayak <span class="sub">AI</span></a>
+    </div>
+  </nav>
+
+  <main class="auth-wrap">
+    <div class="card auth-card">
+      <div class="auth-tabs" role="tablist">
+        <button class="btn btn-primary" id="tab-login" role="tab" aria-selected="true">Sign in</button>
+        <button class="btn btn-ghost" id="tab-signup" role="tab" aria-selected="false">Create account</button>
+      </div>
+
+      <!-- Setup warning (hidden when configured) -->
+      <div class="status warn hidden" id="setup-warning">
+        ⚠️ Supabase is not connected yet. Add your Project URL and anon key in <code>js/config.js</code>.
+      </div>
+
+      <!-- ===================== SIGN IN ===================== -->
+      <form id="login-form" novalidate>
+        <h1>Welcome back 👋</h1>
+        <p class="muted">Sign in to report crop problems and work with your group.</p>
+
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" autocomplete="email" placeholder="you@example.com" required>
+
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" autocomplete="current-password" placeholder="Your password" minlength="6" required>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="login-btn" style="margin-top:1.2rem">Sign in</button>
+        <p class="center small muted" style="margin-top:.8rem">
+          <a href="#" id="forgot-link">Forgot password?</a>
+        </p>
+      </form>
+
+      <!-- ===================== SIGN UP ===================== -->
+      <form id="signup-form" class="hidden" novalidate>
+        <h1>Create your account 🌱</h1>
+        <p class="muted">Free forever. Works on any phone.</p>
+
+        <label for="signup-name">Full name</label>
+        <input type="text" id="signup-name" name="name" autocomplete="name" placeholder="e.g. Ravi Kumar" required>
+
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" autocomplete="email" placeholder="you@example.com" required>
+
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="new-password" autocomplete="new-password" placeholder="At least 6 characters" minlength="6" required>
+        <p class="hint">Use at least 6 characters.</p>
+
+        <label>I am a…</label>
+        <div class="field-row" style="grid-template-columns:repeat(3,1fr)">
+          <button type="button" class="btn btn-secondary role-btn active" data-role="farmer" style="flex-direction:column;padding:.8rem .4rem">
+            <span style="font-size:1.5rem">👨‍🌾</span> Farmer
+          </button>
+          <button type="button" class="btn btn-ghost role-btn" data-role="officer" style="flex-direction:column;padding:.8rem .4rem">
+            <span style="font-size:1.5rem">👮</span> Officer
+          </button>
+          <button type="button" class="btn btn-ghost role-btn" data-role="expert" style="flex-direction:column;padding:.8rem .4rem">
+            <span style="font-size:1.5rem">🎓</span> Expert
+          </button>
+        </div>
+        <input type="hidden" id="signup-role" value="farmer">
+
+        <label for="signup-area">Your panchayat / locality <span class="opt">(optional)</span></label>
+        <input type="text" id="signup-area" placeholder="e.g. Kanjikkuzhi">
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="signup-btn" style="margin-top:1.2rem">Create account</button>
+        <p class="hint center" style="margin-top:.6rem">
+          By creating an account you agree that AI reports are helpers, not final advice.
+        </p>
+      </form>
+
+      <div class="status hidden" id="auth-status" role="status" aria-live="polite"></div>
+
+      <div class="auth-switch">
+        <span class="muted small" id="switch-text">New here?</span>
+        <a href="#" id="switch-link">Create an account</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

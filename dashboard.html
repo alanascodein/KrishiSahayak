@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — KrishiSahayak AI</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+</head>
+<body>
+
+  <!-- ============================ NAV ============================ -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><span class="logo">🌾</span> KrishiSahayak <span class="sub">AI</span></a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+      <div class="nav-links" id="nav-links">
+        <a href="community.html">Community</a>
+        <a href="#" id="signout-link">Sign out</a>
+        <a class="user-chip" href="#profile">
+          <span class="avatar" id="nav-avatar">?</span>
+          <span id="nav-name">…</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================ HEADER ============================ -->
+  <header class="dash-head">
+    <div class="container">
+      <h1 id="greet">Welcome 👋</h1>
+      <p id="greet-sub">Let's keep the whole panchayat healthy this season.</p>
+    </div>
+  </header>
+
+  <main class="container section">
+
+    <!-- ======================= OFFICER ALERT BANNER ======================= -->
+    <div class="alert blue hidden" id="risk-banner">
+      <strong id="risk-title">🚨 Verified community alert</strong>
+      <span id="risk-text" class="small"></span>
+    </div>
+
+    <!-- ============================ TABS ============================ -->
+    <div class="board-filters" role="tablist" id="dash-tabs">
+      <button class="board-pill active" data-tab="home" role="tab">🏠 Home</button>
+      <button class="board-pill hidden" data-tab="report"   data-roles="farmer" role="tab">📸 Report a problem</button>
+      <button class="board-pill hidden" data-tab="reports"  data-roles="farmer" role="tab">🗂️ My reports</button>
+      <button class="board-pill hidden" data-tab="review"   data-roles="officer" role="tab">🔍 Review reports</button>
+      <button class="board-pill hidden" data-tab="signals"  data-roles="officer" role="tab">🚨 Risk signals</button>
+      <button class="board-pill" data-tab="groups"    data-roles="farmer,officer,expert" role="tab">🤝 Groups</button>
+      <button class="board-pill" data-tab="resources" data-roles="farmer,officer,expert" role="tab">🚜 Shared resources</button>
+      <button class="board-pill" data-tab="knowledge" data-roles="farmer,officer,expert" role="tab">📚 Knowledge</button>
+    </div>
+
+    <!-- ============================ HOME ============================ -->
+    <section class="wizard-step active" id="tab-home">
+      <div class="stat-grid" id="stats">
+        <div class="stat"><div class="num" id="stat-reports">–</div><div class="lbl">My reports</div></div>
+        <div class="stat"><div class="num" id="stat-alerts">–</div><div class="lbl">Community alerts</div></div>
+        <div class="stat"><div class="num" id="stat-group">–</div><div class="lbl">My groups</div></div>
+        <div class="stat"><div class="num" id="stat-needs">–</div><div class="lbl">Resource matches</div></div>
+      </div>
+
+      <div class="card-grid mt">
+        <div class="card">
+          <h3>📸 Spotted something on your crop?</h3>
+          <p class="muted">Take one photo. AI fills the report — you just confirm. Under a minute.</p>
+          <button class="btn btn-primary btn-lg" data-goto="report">Report a problem</button>
+        </div>
+        <div class="card">
+          <h3>🤝 Need equipment or inputs?</h3>
+          <p class="muted">Post what you need. If neighbours need it too, you can buy or hire together.</p>
+          <button class="btn btn-secondary btn-lg" data-goto="resources">Shared resources</button>
+        </div>
+        <div class="card">
+          <h3>💬 Have a question?</h3>
+          <p class="muted">Ask the community. Officers reply with verified answers.</p>
+          <a class="btn btn-secondary btn-lg" href="community.html">Open community</a>
+        </div>
+      </div>
+
+      <h2 class="mt">Recent community alerts</h2>
+      <div id="home-alerts"></div>
+    </section>
+
+    <!-- ============================ HOME (OFFICER) ============================ -->
+    <section class="wizard-step" id="tab-home-officer">
+      <div class="stat-grid">
+        <div class="stat"><div class="num" id="ostat-pending">–</div><div class="lbl">Reports to review</div></div>
+        <div class="stat"><div class="num" id="ostat-signals">–</div><div class="lbl">Risk signals</div></div>
+        <div class="stat"><div class="num" id="ostat-alerts">–</div><div class="lbl">Active alerts</div></div>
+        <div class="stat"><div class="num" id="ostat-farmers">–</div><div class="lbl">Farmers on platform</div></div>
+      </div>
+
+      <div class="card-grid mt">
+        <div class="card">
+          <h3>🔍 Verify farmer reports</h3>
+          <p class="muted">Review AI-extracted crop reports and confirm or reject them.</p>
+          <button class="btn btn-primary btn-lg" data-goto="review">Open review queue</button>
+        </div>
+        <div class="card">
+          <h3>🚨 Regional risk signals</h3>
+          <p class="muted">Clusters of similar reports detected by rule. Your verification makes it an official alert.</p>
+          <button class="btn btn-secondary btn-lg" data-goto="signals">View signals</button>
+        </div>
+        <div class="card">
+          <h3>📢 Publish verified guidance</h3>
+          <p class="muted">Share official advice — every farmer sees it with a ✅ Verified badge.</p>
+          <button class="btn btn-secondary btn-lg" data-goto="knowledge">Publish guidance</button>
+        </div>
+      </div>
+
+      <h2 class="mt">Latest unverified reports</h2>
+      <div id="officer-home-latest"></div>
+    </section>
+
+    <!-- ============================ REPORT (AI WIZARD) ============================ -->
+    <section class="wizard-step" id="tab-report">
+      <div class="card" style="max-width:640px;margin-inline:auto">
+        <span class="badge badge-ai">✨ AI-powered</span>
+        <h2 style="margin-top:.5rem">Report a crop problem</h2>
+        <p class="muted">One photo is enough — we fill in the details, you check them before saving.</p>
+
+        <!-- Step dots -->
+        <div class="step-dots" id="report-dots">
+          <span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+
+        <!-- STEP 1: photo -->
+        <div class="wizard-step active" id="rstep-1">
+          <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Choose or take a photo">
+            <span class="dz-icon">📷</span>
+            <strong>Take a photo or choose one</strong>
+            <span class="small muted">Works with camera on phones · GPS location is removed automatically</span>
+          </div>
+          <input type="file" id="photo" accept="image/*" capture="environment">
+          <div class="preview-wrap"><img id="photo-preview" alt="Your crop photo" hidden></div>
+
+          <label for="description">Describe in your own words <span class="opt">(optional — helps the AI)</span></label>
+          <textarea id="description" rows="2" maxlength="500" placeholder="e.g. Started after the heavy rain, only on one side…"></textarea>
+
+          <div class="wizard-nav">
+            <button class="btn btn-ghost" id="report-cancel-1">Cancel</button>
+            <button class="btn btn-primary" id="analyze-btn" disabled>🤖 Read my photo</button>
+          </div>
+
+          <div class="status info hidden" id="photo-status" role="status" aria-live="polite"></div>
+          <ul class="ai-steps hidden" id="ai-progress">
+            <li data-step="1"><span class="dot">1</span> Preparing photo (removing location data)…</li>
+            <li data-step="2"><span class="dot">2</span> Uploading securely…</li>
+            <li data-step="3"><span class="dot">3</span> AI is reading your photo…</li>
+            <li data-step="4"><span class="dot">4</span> Filling in your report…</li>
+          </ul>
+        </div>
+
+        <!-- STEP 2: confirm AI result -->
+        <div class="wizard-step" id="rstep-2">
+          <div class="ai-result" id="ai-result-card">
+            <h3>🤖 Here's what the AI saw <span class="badge badge-unverified">needs your check</span></h3>
+            <div id="ai-summary"></div>
+          </div>
+
+          <form id="report-form" novalidate>
+            <div class="field-row">
+              <div>
+                <label for="crop">Crop</label>
+                <input type="text" id="crop" placeholder="e.g. Paddy" required>
+              </div>
+              <div>
+                <label for="part">Affected part</label>
+                <select id="part">
+                  <option value="">Not sure</option>
+                  <option value="leaf">Leaf</option>
+                  <option value="stem">Stem</option>
+                  <option value="fruit">Fruit</option>
+                  <option value="flower">Flower</option>
+                  <option value="root">Root</option>
+                  <option value="whole_plant">Whole plant</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <label for="symptoms">What you see <span class="opt">(separate with commas)</span></label>
+            <input type="text" id="symptoms" placeholder="e.g. brown spots on leaves, yellowing">
+
+            <div class="field-row">
+              <div>
+                <label for="severity">How bad is it?</label>
+                <select id="severity">
+                  <option value="">Not sure</option>
+                  <option value="mild">Mild</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="severe">Severe</option>
+                </select>
+              </div>
+              <div>
+                <label for="area">Your panchayat / locality</label>
+                <input type="text" id="area" placeholder="e.g. Kanjikkuzhi" required>
+              </div>
+            </div>
+
+            <p class="hint">ℹ️ AI only describes what it can see — it never names a disease. An agricultural officer will review this report.</p>
+
+            <div class="wizard-nav">
+              <button type="button" class="btn btn-ghost" id="back-to-1">← Retake / new photo</button>
+              <button type="submit" class="btn btn-primary" id="save-btn">Save report</button>
+            </div>
+            <div class="status hidden" id="save-status" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <!-- STEP 3: success -->
+        <div class="wizard-step" id="rstep-3">
+          <div class="empty">
+            <span class="icon">✅</span>
+            <h3>Report saved!</h3>
+            <p class="muted">An agricultural officer will review it. If others nearby report the same problem, the community gets an early warning.</p>
+            <button class="btn btn-primary btn-lg" id="another-report">📸 Report another problem</button>
+            <button class="btn btn-ghost btn-lg" data-goto="reports">View my reports</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ MY REPORTS ============================ -->
+    <section class="wizard-step" id="tab-reports">
+      <h2>My reports</h2>
+      <p class="muted">Every report you saved, with its review status.</p>
+      <div id="my-reports"></div>
+    </section>
+
+    <!-- ============================ GROUPS ============================ -->
+    <section class="wizard-step" id="tab-groups">
+      <h2>Cooperative groups</h2>
+      <p class="muted">Join farmers near you — coordinate resources and act together.</p>
+
+      <div class="card" style="margin:1rem 0">
+        <h3>Create a group</h3>
+        <form id="group-form">
+          <div class="field-row">
+            <div>
+              <label for="group-name">Group name</label>
+              <input type="text" id="group-name" placeholder="e.g. Kanjikkuzhi Paddy Farmers" required>
+            </div>
+            <div>
+              <label for="group-area">Area / panchayat</label>
+              <input type="text" id="group-area" placeholder="e.g. Kanjikkuzhi" required>
+            </div>
+          </div>
+          <label for="group-crop">Main crop <span class="opt">(optional)</span></label>
+          <input type="text" id="group-crop" placeholder="e.g. Paddy">
+          <button class="btn btn-primary" style="margin-top:1rem">Create group</button>
+        </form>
+      </div>
+
+      <h3 class="mt">Groups near you</h3>
+      <div id="groups-list"></div>
+
+      <!-- ==================== GROUP CHAT ==================== -->
+      <div class="card hidden" id="group-chat" style="margin-top:1.2rem">
+        <div class="chat-head">
+          <div>
+            <h3 id="chat-title" style="margin:0">Group chat</h3>
+            <span class="small muted" id="chat-sub">Messages are visible to group members only.</span>
+          </div>
+          <button type="button" class="btn btn-ghost" id="chat-close" style="min-height:40px">✕ Close</button>
+        </div>
+
+        <div id="chat-messages" aria-live="polite" style="margin-top:1rem"></div>
+
+        <form id="chat-form" class="chat-form" autocomplete="off">
+          <label class="sr-only" for="chat-input">Message</label>
+          <input type="text" id="chat-input" maxlength="1000" placeholder="Type a message to the group…" required>
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================ RESOURCES ============================ -->
+    <section class="wizard-step" id="tab-resources">
+      <h2>Shared resources</h2>
+      <p class="muted">Post what you need — or share what you have left over. When nearby farmers need the same thing, we suggest coordinating together.</p>
+
+      <div class="card" style="margin:1rem 0">
+        <h3>Post a need</h3>
+        <form id="resource-form">
+          <div class="field-row">
+            <div>
+              <label for="res-type">What do you need?</label>
+              <select id="res-type" required>
+                <option value="">Choose…</option>
+                <option>Irrigation equipment</option>
+                <option>Agricultural machinery</option>
+                <option>Seeds</option>
+                <option>Fertilizers & inputs</option>
+                <option>Transport</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label for="res-area">Your panchayat / locality</label>
+              <input type="text" id="res-area" required>
+            </div>
+          </div>
+          <label for="res-note">Details <span class="opt">(optional)</span></label>
+          <input type="text" id="res-note" placeholder="e.g. 3 HP pump for two acres, needed by next week">
+          <button class="btn btn-primary" style="margin-top:1rem">Post need</button>
+        </form>
+      </div>
+
+      <div class="card" style="margin:1rem 0">
+        <h3>🎁 Have something left over? Share or sell it</h3>
+        <p class="muted small">Bought 10 kg of fertilizer but used only 8? Offer the rest to a neighbour instead of letting it sit until next season.</p>
+        <form id="offer-form">
+          <div class="field-row">
+            <div>
+              <label for="off-name">Item</label>
+              <input type="text" id="off-name" placeholder="e.g. Urea fertilizer (unopened)" required>
+            </div>
+            <div>
+              <label for="off-type">Category</label>
+              <select id="off-type" required>
+                <option value="">Choose…</option>
+                <option>Fertilizers &amp; inputs</option>
+                <option>Seeds</option>
+                <option>Pesticides</option>
+                <option>Irrigation equipment</option>
+                <option>Agricultural machinery</option>
+                <option>Transport</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row" style="grid-template-columns:1fr 1fr 1fr">
+            <div>
+              <label for="off-qty">Quantity</label>
+              <input type="number" id="off-qty" min="0.1" step="any" placeholder="e.g. 2" required>
+            </div>
+            <div>
+              <label for="off-unit">Unit</label>
+              <select id="off-unit">
+                <option>kg</option>
+                <option>litres</option>
+                <option>bags</option>
+                <option>packets</option>
+                <option>pieces</option>
+              </select>
+            </div>
+            <div>
+              <label for="off-price">Price per unit (₹)</label>
+              <input type="number" id="off-price" min="0" step="any" placeholder="0 = free" value="0">
+            </div>
+          </div>
+          <div class="field-row">
+            <div>
+              <label for="off-area">Your panchayat / locality</label>
+              <input type="text" id="off-area" required>
+            </div>
+            <div>
+              <label for="off-contact">Contact <span class="opt">(phone / WhatsApp, optional)</span></label>
+              <input type="text" id="off-contact" placeholder="e.g. 98470 00000">
+            </div>
+          </div>
+          <label for="off-note">Details <span class="opt">(optional)</span></label>
+          <input type="text" id="off-note" placeholder="e.g. opened bag, stored dry — pickup from my farm">
+          <button class="btn btn-primary" style="margin-top:1rem">Share this</button>
+        </form>
+      </div>
+
+      <h3 class="mt">Needs & matches</h3>
+      <div id="resources-list"></div>
+
+      <h3 class="mt">🎁 Surplus & offers from farmers nearby</h3>
+      <div id="offers-list"></div>
+    </section>
+
+    <!-- ============================ KNOWLEDGE ============================ -->
+    <section class="wizard-step" id="tab-knowledge">
+      <h2>Knowledge sharing</h2>
+      <p class="muted">What worked on your farm can help everyone. Officer-verified guidance is marked.</p>
+
+      <div class="card" style="margin:1rem 0">
+        <h3>Share what worked</h3>
+        <form id="knowledge-form">
+          <div class="field-row">
+            <div>
+              <label for="kn-crop">Crop</label>
+              <input type="text" id="kn-crop" placeholder="e.g. Coconut" required>
+            </div>
+            <div>
+              <label for="kn-topic">Topic</label>
+              <select id="kn-topic" required>
+                <option value="">Choose…</option>
+                <option>Pest management</option>
+                <option>Irrigation</option>
+                <option>Soil & fertilizer</option>
+                <option>Weather protection</option>
+                <option>Harvest & storage</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <label for="kn-title">Title</label>
+          <input type="text" id="kn-title" placeholder="e.g. Neem spray kept the rhinoceros beetle away" required>
+          <label for="kn-body">What did you do?</label>
+          <textarea id="kn-body" rows="4" placeholder="Describe what worked on your farm…" required></textarea>
+          <button class="btn btn-primary" style="margin-top:1rem">Share with everyone</button>
+        </form>
+      </div>
+
+      <h3 class="mt">Farmer knowledge</h3>
+      <div id="knowledge-list"></div>
+    </section>
+
+    <!-- ============================ REVIEW (OFFICER) ============================ -->
+    <section class="wizard-step" id="tab-review">
+      <h2>🔍 Review reports</h2>
+      <p class="muted">Confirm or reject farmer reports. Verified reports build community trust.</p>
+      <div id="officer-reports"></div>
+    </section>
+
+    <!-- ============================ SIGNALS (OFFICER) ============================ -->
+    <section class="wizard-step" id="tab-signals">
+      <h2>🚨 Risk signals</h2>
+      <p class="muted">Rule-based detection: same crop + symptom + area within 7 days, 3+ reports. A signal is not an outbreak — your verification makes it official.</p>
+      <div id="risk-list"></div>
+    </section>
+
+    <!-- ============================ PROFILE ============================ -->
+    <section class="wizard-step" id="tab-profile">
+      <h2>My profile</h2>
+      <div class="card" style="max-width:520px">
+        <form id="profile-form">
+          <label for="pf-name">Full name</label>
+          <input type="text" id="pf-name" required>
+          <label for="pf-area">Panchayat / locality</label>
+          <input type="text" id="pf-area" placeholder="e.g. Kanjikkuzhi">
+          <label for="pf-role">Role</label>
+          <select id="pf-role" disabled>
+            <option value="farmer">👨‍🌾 Farmer</option>
+            <option value="officer">👮 Agricultural Officer</option>
+            <option value="expert">🎓 Expert</option>
+          </select>
+          <button class="btn btn-primary" style="margin-top:1.2rem">Save profile</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="container">
+      <div class="foot-bottom small center">
+        🌾 KrishiSahayak AI — AI extracts, humans verify · <a href="index.html" style="color:#a8d4b0">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/photo-report.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
