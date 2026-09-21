@@ -1,0 +1,21 @@
+# Secrets and local artifacts — never commit
+.env
+.env.*
+*.env
+node_modules/
+supabase/.temp/
+supabase/.branches/
+
+# OS junk (Windows / macOS)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editors
+.vscode/
+.idea/
+*.swp
